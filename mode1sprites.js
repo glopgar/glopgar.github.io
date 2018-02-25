@@ -68,9 +68,9 @@ $(function() {
   }
 
   function updateStateFromUi() {
-    state.x = Math.max(Math.min(320, $x.val()), 1);
+    state.x = Math.max(Math.min(320, $x.val()), 0);
     state.x -= (state.x % 4);
-    state.y = Math.max(Math.min(200, $y.val()), 1);
+    state.y = Math.max(Math.min(200, $y.val()), 0);
     var cols = parseInt($width.val(), 10);
     var mod = cols % 4;
     if (mod) {
