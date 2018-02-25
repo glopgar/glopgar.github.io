@@ -32,7 +32,7 @@
         #configs > :last-child {
             margin-bottom: 30px;
         }
-        label, input {
+        #configs label, #configs input {
             width: 50px;
             float: left;
             margin-right: 10px;
@@ -58,16 +58,21 @@
         #matrix {
             float: left;
         }
-        #machinecode {
-            display: inline;
+        #machinecodewrapper {
             float: left;
             margin: 0 0 0 30px;
+        }
+        #machinecode {
+            margin: 0;
             background-color: #444;
             color: #eee141;
             padding: 20px;
             text-wrap: normal;
             white-space: pre-wrap;
             word-wrap: break-word;
+        }
+        .right {
+            text-align: right;
         }
 
     </style>
@@ -104,7 +109,12 @@
     <table id="matrix">
 
     </table>
-    <pre id="machinecode"></pre>
+    <div id="machinecodewrapper">
+        <div class="right">
+            <label for="groupbytes">Lineas de 16 bytes</label>
+            <input id="groupbytes" type="checkbox" checked value="1" />
+        </div>
+        <pre id="machinecode"></pre>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="mode1sprites.js"></script>

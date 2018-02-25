@@ -19,10 +19,12 @@ $(function() {
     };
 
   function initializeChangeListeners() {
-    $('input').change(function() {
+    var onChange = function() {
       updateStateFromUi();
       renderTable();
-    });
+    };
+    $('#configs input').change(onChange);
+    $('#groupbytes').click(onChange);
   }
 
   function initializeColorSelectorListeners() {
@@ -79,6 +81,7 @@ $(function() {
     state.cols = Math.max(Math.min(40, cols), 1);
     state.rows = Math.max(Math.min(40, $height.val()), 1);
     state.selectedColor = $('#colorselector').find('td.sel').data('color');
+    state.groupBytes = $('#groupbytes').is(':checked');
     state.sprite = fillSpriteArray(state.sprite, state.rows, state.cols, state.selectedColor);
   }
 
@@ -128,7 +131,11 @@ $(function() {
   }
 
   function renderMachineCode() {
-    $('#machinecode').text(splitInLines(writeCode(state.x, state.y, state.cols, state.rows, state.sprite)));
+    var code = writeCode(state.x, state.y, state.cols, state.rows, state.sprite);
+    if (state.groupBytes) {
+      code = splitInLines(code);
+    }
+    $('#machinecode').text(code);
   }
 
   function init() {
