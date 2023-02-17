@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+<style>
+body {
+    background-color: #ccc;
+}
+.container {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "a b";
+}
+.a {
+    grid-area: a;
+}
+.b {
+    grid-area: b;
+}
+pre {
+    font-size: 14px;
+    background-color: white;
+    border: 2px solid black;
+    padding: 15px;
+
+}
+#edit_area {
+    width: 300px;
+}
+#info_area {
+    width: 100px;
+}
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        const edit_area = document.getElementById("edit_area");
+        const info_area = document.getElementById("info_area");
+        const r = /(\d+) ([A-F0-9]{24}),([A-F0-9]{1,3})$/;
+        const processText = function(e) {
+            console.log("process");
+            const lines = edit_area.innerText.split("\n");
+            let info_text = "";
+            for (let i=0; i<lines.length; i++) {
+                let line_data = lines[i].match(r);
+                if (line_data !== null) {
+                    let line_chars = line_data[2];
+                    let line_sum = line_data[3];
+                    let lsum = 0;
+                    let g = line_chars.match(/..?/g);
+                    for (let j=0; j<g.length; j++) {
+                        lsum += +('0x'+g[j]);
+                    }
+                    let hex_lsum = lsum.toString(16).toUpperCase();
+                    if (hex_lsum == line_sum) {
+                        info_text += line_data[1] + " -- OK ---\n";
+                    } else {
+                        info_text += line_data[1] + " ## ERR ##\n";
+                    }
+                } else {
+                    info_text = info_text + "---------\n";
+                }
+                info_area.innerText = info_text;
+            }
+
+        };
+        let timeid = null;
+        edit_area.onkeyup = function() {
+            clearTimeout(timeid);
+            timeid = setTimeout(processText, 250);
+        }
+    });
+</script>
+</head>
+<body>
+<div class="container">
+    <pre id="edit_area" contentEditable="true" class="a"></pre>
+    <pre id="info_area" class="b"></pre>
+</div>
+</body>
+</html>
